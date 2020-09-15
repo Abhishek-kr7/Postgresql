@@ -1,0 +1,586 @@
+=============================
+         POSTGRESQL
+=============================
+CREATE DATABASE
+
+SYNTAX
+CREATE DATABASE dbname;
+
+Create Database testdb;
+
+Using Command line
+
+createdb -h localhost -p 5432 -U postgres testdb
+password ******
+
+SELECT DATABASE
+
+\c dbname;
+
+\c testdb;
+
+Using Command Line
+
+psql -h localhost -p 5432 -U postgress testdb
+Password for user postgress: ****
+
+DROP DATABASE
+DROP DATABASE [ IF EXISTS ] name;
+
+Using Command Line
+dropdb -h localhost -p 5432 -U postgress testdb
+Password for user postgress: ****
+
+
+CREATE TABLE
+SYNTAX
+CREATE TABLE table_name(
+   column1 datatype,
+   column2 datatype,
+   column3 datatype,
+   .....
+   columnN datatype,
+   PRIMARY KEY( one or more columns )
+);
+
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+
+List all the Tables in a Database.
+
+\d - to List all the Tables in the DB
+
+DROP TABLE
+SYNTAX
+DROP TABLE TABLE_NAME(S);
+
+drop table department, company;
+
+SCHEMA
+
+SYNTAX
+
+CREATE SCHEMA name;
+
+create schema myschema;
+
+TABLE UNDER SCHEMA
+
+create table myschema.company(
+   ID   INT              NOT NULL,
+   NAME VARCHAR (20)     NOT NULL,
+   AGE  INT              NOT NULL,
+   ADDRESS  CHAR (25),
+   SALARY   DECIMAL (18, 2),
+   PRIMARY KEY (ID)
+);
+
+DROP SCHEMA
+SYNTAX
+DROP SCHEMA SCHEMA_NAME;
+
+DROP SCHEMA myschema;
+
+To Drop a Schema including all its contained objects;
+
+DROP SCHEMA myschema CASCADE;
+
+INSERT STATEMENT
+
+SYNTAX
+
+INSERT INTO TABLE_NAME VALUES (value1,value2,value3,...valueN);
+(IF You are inserting values in all Columns)
+
+INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)
+VALUES (value1, value2, value3,...valueN);
+(If You are Inserting Values in specific columns)
+
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL,
+   JOIN_DATE	  DATE
+);
+
+INSERTING VALUES:
+
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (1, 'Paul', 32, 'California', 20000.00,'2001-07-13');
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,JOIN_DATE) VALUES (2, 'Allen', 25, 'Texas', '2007-12-13');
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (3, 'Teddy', 23, 'Norway', 20000.00, DEFAULT );
+INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00, '2007-12-13' ), (5, 'David', 27, 'Texas', 85000.00, '2007-12-13');
+
+SELECT 
+
+SYNTAX
+SELECT column1, column2, columnN FROM table_name;
+
+SELECT * FROM table_name;
+
+OPERATORS
+
+Arithmetic operators
+IF A is 2 and b is 3
+
+Operator                             Description                                                          Example
+   +              Addition - Adds values on either side of the operator                                a + b will give 5
+   -              Subtraction - Subtracts right hand operand from left hand operand                    a - b will give -1
+   *              Multiplication - Multiplies values on either side of the operator                    a * b will give 6
+   /              Division - Divides left hand operand by right hand operand                           b / a will give 1
+   %              Modulus - Divides left hand operand by right hand operand and returns remainder      b % a will give 1
+   ^              Exponentiation - This gives the exponent value of the right hand operand             a ^ b will give 8
+   |/             square root                                                                          |/ 25.0 will give 5
+   ||/            Cube root                                                                            ||/ 27.0 will give 3
+   !              factorial                                                                            5 ! will give 120
+   !!             factorial (prefix operator)                                                          !! 5 will give 120
+
+Comparison operators
+
+Operator                Description                                                                                                                    Example
+   =             Checks if the values of two operands are equal or not, if yes then condition becomes true.                                      (a = b) is not true.
+   !=            Checks if the values of two operands are equal or not, if values are not equal then condition becomes true.                     (a != b) is true.
+   <>            Checks if the values of two operands are equal or not, if values are not equal then condition becomes true.                     (a <> b) is true.
+   >             Checks if the value of left operand is greater than the value of right operand, if yes then condition becomes true.             (a > b) is not true.
+   <             Checks if the value of left operand is less than the value of right operand, if yes then condition becomes true.                (a < b) is true.
+   >=            Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true. (a >= b) is not true.
+   <=            Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true.    (a <= b) is true.
+
+Logical operators
+
+Operator                                 Description                                                                                                     Example
+   &              Binary AND Operator copies a bit to the result if it exists in both operands.                                                 (A & B) will give 12 which is 0000 1100
+   |              Binary OR Operator copies a bit if it exists in either operand.                                                               (A | B) will give 61 which is 0011 1101
+   ~              Binary Ones Complement Operator is unary and has the effect of 'flipping' bits.                                               (~A ) will give -61 which is 1100 0011 in 2's complement form due to a signed binary number.
+   <<             Binary Left Shift Operator. The left operands value is moved left by the number of bits specified by the right operand.        A << 2 will give 240 which is 1111 0000
+   >>             Binary Right Shift Operator. The left operands value is moved right by the number of bits specified by the right operand.      A >> 2 will give 15 which is 0000 1111
+   #              bitwise XOR.                                                                                                                   A # B will give 49 which is 0100 1001
+
+Bitwise operators
+
+EXPRESSIONS
+
+There are several built-in functions like avg(), sum(), count() to perform what is known as aggregate data calculations against a table or a specific table column.
+SELECT column1, column2, columnN
+FROM table_name
+WHERE [CONDITION | EXPRESSION];
+
+SELECT column1, column2, columnN
+FROM table_name
+WHERE SINGLE VALUE MATCHTING EXPRESSION;
+
+SELECT * FROM COMPANY WHERE SALARY = 10000;
+
+SELECT numerical_expression as  OPERATION_NAME
+[FROM table_name WHERE CONDITION] ;
+
+SELECT (15 + 6) AS ADDITION ;
+
+SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
+
+Date Expressions
+
+SELECT CURRENT_TIMESTAMP;
+
+WHERE Clause
+
+SELECT column1, column2, columnN
+FROM table_name
+WHERE [search_condition]
+
+SELECT * FROM COMPANY WHERE AGE >= 25 AND SALARY >= 65000;
+
+SELECT * FROM COMPANY WHERE AGE >= 25 OR SALARY >= 65000;
+
+SELECT * FROM COMPANY WHERE AGE IS NOT NULL;
+
+SELECT * FROM COMPANY WHERE NAME LIKE 'Pa%';
+
+SELECT * FROM COMPANY WHERE AGE IN ( 25, 27 );
+
+SELECT * FROM COMPANY WHERE AGE NOT IN ( 25, 27 );
+
+SELECT * FROM COMPANY WHERE AGE BETWEEN 25 AND 27;
+
+SELECT AGE FROM COMPANY
+WHERE EXISTS (SELECT AGE FROM COMPANY WHERE SALARY > 65000);
+
+SELECT * FROM COMPANY
+WHERE AGE > (SELECT AGE FROM COMPANY WHERE SALARY > 65000);
+
+AND OPERATORS
+
+SELECT column1, column2, columnN
+FROM table_name
+WHERE [condition1] AND [condition2]...AND [conditionN];
+
+SELECT * FROM COMPANY WHERE AGE >= 25 AND SALARY >= 65000;
+
+OR OPERATORS
+SELECT * FROM COMPANY WHERE AGE >= 25 OR SALARY >= 65000;
+
+UPDATE
+UPDATE table_name
+SET column1 = value1, column2 = value2...., columnN = valueN
+WHERE [condition];
+
+UPDATE COMPANY SET SALARY = 15000 WHERE ID = 3;
+
+UPDATE COMPANY SET ADDRESS = 'Texas', SALARY=20000;
+
+DELETE FROM table_name
+WHERE [condition];
+
+DELETE FROM COMPANY WHERE ID = 2;
+
+TO DELETE ALL FROM TABLE
+DELETE FROM COMPANY;
+
+
+LIKE OPERATORS
+
+There are two wildcards used in conjunction with the LIKE operator −
+
+The percent sign (%)
+The underscore (_)
+
+SYNTAX
+SELECT FROM table_name WHERE column LIKE 'XXXX%'
+or
+SELECT FROM table_name WHERE column LIKE '%XXXX%'
+or
+SELECT FROM table_name WHERE column LIKE 'XXXX_'
+or
+SELECT FROM table_name WHERE column LIKE '_XXXX'
+or
+SELECT FROM table_name WHERE column LIKE '_XXXX_'
+
+
+1	
+WHERE SALARY::text LIKE '200%'
+Finds any values that start with 200
+
+2	
+WHERE SALARY::text LIKE '%200%'
+Finds any values that have 200 in any position
+
+3	
+WHERE SALARY::text LIKE '_00%'
+Finds any values that have 00 in the second and third positions
+
+4	
+WHERE SALARY::text LIKE '2_%_%'
+Finds any values that start with 2 and are at least 3 characters in length
+
+5	
+WHERE SALARY::text LIKE '%2'
+Finds any values that end with 2
+
+6	
+WHERE SALARY::text LIKE '_2%3'
+Finds any values that have 2 in the second position and end with a 3
+
+7	
+WHERE SALARY::text LIKE '2___3'
+Finds any values in a five-digit number that start with 2 and end with 3
+
+LIMIT OPERATORS
+SELECT column1, column2, columnN
+FROM table_name
+LIMIT [no of rows]
+
+SELECT * FROM COMPANY LIMIT 4;
+SELECT * FROM COMPANY LIMIT 3 OFFSET 2;
+OFFSET 2 will skip the 1st and 2nd Data and will show from 3rd.
+
+
+SELECT column-list
+FROM table_name
+[WHERE condition]
+[ORDER BY column1, column2, .. columnN] [ASC | DESC];
+
+
+SELECT * FROM COMPANY ORDER BY AGE ASC;
+
+SELECT * FROM COMPANY ORDER BY NAME, SALARY ASC;
+
+SELECT * FROM COMPANY ORDER BY NAME DESC;
+
+SELECT column-list
+FROM table_name
+WHERE [ conditions ]
+GROUP BY column1, column2....columnN
+ORDER BY column1, column2....columnN
+
+SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+
+INSERT INTO COMPANY VALUES (8, 'Paul', 24, 'Houston', 20000.00);
+INSERT INTO COMPANY VALUES (9, 'James', 44, 'Norway', 5000.00);
+INSERT INTO COMPANY VALUES (10, 'James', 45, 'Texas', 5000.00);
+
+HAVING CLAUSE
+
+SELECT column1, column2
+FROM table1, table2
+WHERE [ conditions ]
+GROUP BY column1, column2
+HAVING [ conditions ]
+ORDER BY column1, column2
+
+SELECT NAME FROM COMPANY GROUP BY name HAVING count(name) < 2;
+
+SELECT NAME FROM COMPANY GROUP BY name HAVING count(name) > 1;
+
+DISTINCT KEYWORD
+SELECT DISTINCT column1, column2,.....columnN
+FROM table_name
+WHERE [condition]
+
+SELECT DISTINCT name FROM COMPANY;
+
+JOINS IN POSTGRES
+Join Types in PostgreSQL are −
+
+The CROSS JOIN
+The INNER JOIN
+The LEFT OUTER JOIN
+The RIGHT OUTER JOIN
+The FULL OUTER JOIN
+
+SELECT table1.column1, table2.column2...
+FROM table1
+INNER JOIN table2
+ON table1.common_filed = table2.common_field;
+
+SELECT EMP_ID, NAME, DEPT FROM COMPANY LEFT OUTER JOIN DEPARTMENT
+ON COMPANY.ID = DEPARTMENT.EMP_ID;
+   
+SELECT EMP_ID, NAME, DEPT FROM COMPANY RIGHT OUTER JOIN DEPARTMENT
+ON COMPANY.ID = DEPARTMENT.EMP_ID;
+ 
+SELECT EMP_ID, NAME, DEPT FROM COMPANY FULL OUTER JOIN DEPARTMENT
+ON COMPANY.ID = DEPARTMENT.EMP_ID;
+   
+
+UNION
+To use UNION, each SELECT must have the same number of columns selected,
+the same number of column expressions, the same data type, and have 
+them in the same order but they do not have to be the same length.
+
+
+SELECT column1 [, column2 ]
+FROM table1 [, table2 ]
+[WHERE condition]
+
+UNION
+
+SELECT column1 [, column2 ]
+FROM table1 [, table2 ]
+[WHERE condition]
+
+
+The UNION ALL Clause
+The UNION ALL operator is used to combine the results of two SELECT statements
+including duplicate rows. The same rules that apply to UNION apply to the 
+UNION ALL operator as well.
+
+Syntax
+The basic syntax of UNION ALL is as follows −
+
+SELECT column1 [, column2 ]
+FROM table1 [, table2 ]
+[WHERE condition]
+
+UNION ALL
+
+SELECT column1 [, column2 ]
+FROM table1 [, table2 ]
+[WHERE condition]
+
+
+NULL VALUES
+The PostgreSQL NULL is the term used to represent a missing value. A NULL value in a table is a value in a field that appears to be blank.
+A field with a NULL value is a field with no value. It is very important to understand 
+that a NULL value is different from a zero value or a field that contains spaces.
+
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+SELECT  ID, NAME, AGE, ADDRESS, SALARY
+   FROM COMPANY
+   WHERE SALARY IS NOT NULL;
+ 
+SELECT  ID, NAME, AGE, ADDRESS, SALARY
+    FROM COMPANY
+    WHERE SALARY IS NULL;
+
+ALIAS 
+SELECT column_name AS alias_name
+FROM table_name
+WHERE [condition];
+
+SELECT C.ID, C.NAME, C.AGE, D.DEPT
+   FROM COMPANY AS C, DEPARTMENT AS D
+   WHERE  C.ID = D.EMP_ID;
+  
+
+ALTER COMMAND
+
+The basic syntax of ALTER TABLE to add a new column in an existing table is as follows −
+
+ALTER TABLE table_name ADD column_name datatype;
+The basic syntax of ALTER TABLE to DROP COLUMN in an existing table is as follows −
+
+ALTER TABLE table_name DROP COLUMN column_name;
+The basic syntax of ALTER TABLE to change the DATA TYPE of a column in a table is as follows −
+
+ALTER TABLE table_name ALTER COLUMN column_name TYPE datatype;
+The basic syntax of ALTER TABLE to add a NOT NULL constraint to a column in a table is as follows −
+
+ALTER TABLE table_name MODIFY column_name datatype NOT NULL;
+The basic syntax of ALTER TABLE to ADD UNIQUE CONSTRAINT to a table is as follows −
+
+ALTER TABLE table_name
+ADD CONSTRAINT MyUniqueConstraint UNIQUE(column1, column2...);
+The basic syntax of ALTER TABLE to ADD CHECK CONSTRAINT to a table is as follows −
+
+ALTER TABLE table_name
+ADD CONSTRAINT MyUniqueConstraint CHECK (CONDITION);
+The basic syntax of ALTER TABLE to ADD PRIMARY KEY constraint to a table is as follows −
+
+ALTER TABLE table_name
+ADD CONSTRAINT MyPrimaryKey PRIMARY KEY (column1, column2...);
+The basic syntax of ALTER TABLE to DROP CONSTRAINT from a table is as follows −
+
+ALTER TABLE table_name
+DROP CONSTRAINT MyUniqueConstraint;
+If you are using MySQL, the code is as follows −
+
+ALTER TABLE table_name
+DROP INDEX MyUniqueConstraint;
+
+TRUNCATE
+
+The basic syntax of TRUNCATE TABLE is as follows −
+
+TRUNCATE TABLE  table_name;
+
+
+VIEWS IN POSTGRES
+
+CREATE [TEMP | TEMPORARY] VIEW view_name AS
+SELECT column1, column2.....
+FROM table_name
+WHERE [condition];
+
+CREATE VIEW COMPANY_VIEW AS
+SELECT ID, NAME, AGE
+FROM  COMPANY;
+
+Dropping Views
+To drop a view, simply use the DROP VIEW statement with the view_name. The basic DROP VIEW syntax is as follows −
+
+testdb=# DROP VIEW view_name;
+The following command will delete COMPANY_VIEW view, which we created in the last section −
+
+testdb=# DROP VIEW COMPANY_VIEW;
+
+
+CONSTRAINTS
+The following are commonly used constraints available in PostgreSQL.
+
+NOT NULL Constraint − Ensures that a column cannot have NULL value.
+
+CREATE TABLE COMPANY1(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+UNIQUE Constraint − Ensures that all values in a column are different.
+
+CREATE TABLE COMPANY3(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL UNIQUE,
+   ADDRESS        CHAR(50),
+   SALARY         REAL    DEFAULT 50000.00
+);
+
+PRIMARY Key − Uniquely identifies each row/record in a database table.
+
+CREATE TABLE COMPANY4(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+FOREIGN Key − Constrains data based on columns in other tables.
+CREATE TABLE COMPANY6(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+CREATE TABLE DEPARTMENT1(
+   ID INT PRIMARY KEY      NOT NULL,
+   DEPT           CHAR(50) NOT NULL,
+   EMP_ID         INT      references COMPANY6(ID)
+);
+
+CHECK Constraint − The CHECK constraint ensures that all values in a column satisfy certain conditions.
+CREATE TABLE COMPANY5(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL    CHECK(SALARY > 0)
+);
+
+
+EXCLUSION Constraint − The EXCLUDE constraint ensures that if any two rows are compared on the specified column(s) 
+or expression(s) using the specified operator(s), not all of these comparisons will return TRUE.
+
+CREATE TABLE COMPANY7(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT,
+   AGE            INT  ,
+   ADDRESS        CHAR(50),
+   SALARY         REAL,
+   EXCLUDE USING gist
+   (NAME WITH =,
+   AGE WITH <>)
+);
+
+Here, USING gist is the type of index to build and use for enforcement.
+
+As we have enforced the age has to be same, let us see this by inserting records to the table −
+INSERT INTO COMPANY7 VALUES(1, 'Paul', 32, 'California', 20000.00 );
+INSERT INTO COMPANY7 VALUES(2, 'Paul', 32, 'Texas', 20000.00 );
+INSERT INTO COMPANY7 VALUES(3, 'Paul', 42, 'California', 20000.00 );
+
+For the first two INSERT statements, the records are added to the COMPANY7 table. For the third INSERT statement, 
+the following error is displayed −
+ERROR:  conflicting key value violates exclusion constraint "company7_name_age_excl"
+DETAIL:  Key (name, age)=(Paul, 42) conflicts with existing key (name, age)=(Paul, 32).
+
+Dropping Constraints
+ALTER TABLE table_name DROP CONSTRAINT some_name;
